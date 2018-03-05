@@ -7,6 +7,7 @@
 # one edit (or zero edits) away
 
 
+# O(n)
 def one_away(before, after):
     if abs(len(before) - len(after)) >= 2:
         return False
@@ -16,11 +17,6 @@ def one_away(before, after):
     right_correction = 0
 
     for index in range(min(len(before), len(after))):
-        if index == len(before) - 1:
-            left_correction = 0
-        if index == len(after) - 1:
-            right_correction = 0
-
         if before[index + left_correction] != after[index + right_correction]:
             if has_mismatched:
                 return False
