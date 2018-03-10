@@ -9,6 +9,7 @@ class Node:
 class List:
     def __init__(self, items=[]):
         self.head = None
+        self.size = 0
         for item in items:
             self.insert(item)
     
@@ -28,6 +29,7 @@ class List:
         new_node.item = item
         new_node.next = self.head
         self.head = new_node
+        self.size += 1
 
     def delete(self, item):
         def find_prev_node_helper(current, target):
@@ -47,6 +49,7 @@ class List:
                 self.head = target_node.next
             else:
                 prev_node.next = target_node.next
+            self.size -= 1
 
 
     def __str__(self):
@@ -60,6 +63,9 @@ class List:
             return str(None)
         else:
             return s
+    
+    def __len__(self):
+        return self.size
 
 if __name__ == '__main__':
     l = List()
