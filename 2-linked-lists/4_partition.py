@@ -12,6 +12,8 @@ from linked_list import List
 
 # This seems sort of like a selection sort
 
+
+# This is slow, fix this!
 def partition(a_list: List, partition_item: int) -> None:
     if not a_list:
         return
