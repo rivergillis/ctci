@@ -39,6 +39,16 @@ class List:
         self.head = new_node
         self.size += 1
     
+    def insert_node(self, node, prev_node=None):
+        if prev_node is None:
+            prev_node = self.head
+
+        if prev_node is None:
+            self.head = node
+        else:
+            prev_node.next = node
+        
+    
     def find_prev_node(self, target_item, current=None):
         if current is None:
             current = self.head
