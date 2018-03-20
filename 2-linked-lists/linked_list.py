@@ -122,12 +122,26 @@ class List:
         
         return None
 
+    def last_node(self):
+        current = self.head
+
+        while current.next:
+            current = current.next
+        
+        return current
+    
 
     def __str__(self):
+        found = {}
+
         def str_helper(current):
             if not current:
                 return ""
             else:
+                if found.get(current, False):
+                    return "(" + str(current) + ") ..."
+                else:
+                    found[current] = True
                 return str(current) + " " + str_helper(current.next)
         s = str_helper(self.head)
         if not s:
