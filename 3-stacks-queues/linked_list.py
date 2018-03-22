@@ -26,6 +26,14 @@ class LinkedList:
 
         return search_list_helper(self.head, target)
     
+    def search_right(self, target):
+        current = self.tail
+        while current:
+            if current.item == target:
+                return current
+            current = current.prev
+        return None
+    
     def search_node(self, target_node):
         current = self.head
         while current:
@@ -120,6 +128,45 @@ class LinkedList:
                 prev_node.next = target_node.next
                 target_node.next.prev = prev_node
             self.size -= 1
+        
+    def delete_right(self, item, target_node=None):
+        if target_node is None:
+            target_node = self.search_right(item)
+        if target_node:
+            prev_node = target_node.prev
+            if not prev_node:
+                if self.tail == self.head:
+                    self.tail = target_node.next # None
+                self.head = target_node.next
+                if self.head:
+                    self.head.prev = None
+            elif not target_node.next:
+                self.tail = prev_node
+                self.tail.next = None
+            else:
+                prev_node.next = target_node.next
+                target_node.next.prev = prev_node
+            self.size -= 1
+    
+    def popleft(self):
+        if self.head == self.tail:
+            self.tail = self.head.next #None
+        item = self.head
+        self.head = self.head.next
+        if self.head:
+            self.head.prev = None
+        self.size -= 1
+        return item
+    
+    def popright(self):
+        if self.head == self.tail:
+            self.head = self.tail.prev #None
+        item = self.tail
+        self.tail = self.tail.prev
+        if self.tail:
+            self.tail.next = None
+        self.size -= 1
+        return item
     
     def delete_node(self, target_node, prev_node=None):
         if target_node is None:
@@ -191,10 +238,9 @@ if __name__ == '__main__':
     print(l.tail.prev.next)
     print(l)
     l.delete(2)
+    l.insert(55)
+    l.insert(33)
+    l.insert(5) 
     print(l)
-    l.delete(5)
-    print(l.tail.prev)
-    l.delete(3)
-    print(l)
-    l.delete(33)
+    l.delete_right(33)
     print(l)
