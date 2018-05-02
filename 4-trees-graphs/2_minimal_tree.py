@@ -20,7 +20,7 @@ class Node(object):
         return ''.join(total)
     
     def __repr__(self):
-        return str(self);
+        return str(self)
 
 # This is sort of like a binary search in reverse
 def minimal_tree(a_list):
