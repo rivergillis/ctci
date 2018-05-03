@@ -4,6 +4,7 @@
 # Hints 21, 33, 49, 105, 124
 
 from bst import Node
+from collections import defaultdict
 
 # O(n)
 def get_height(tree, height=1, best_height=0):
@@ -14,6 +15,46 @@ def get_height(tree, height=1, best_height=0):
     height_left = get_height(tree.left, height+1, best_height)
     height_right = get_height(tree.right, height+1, best_height)
     return max(height_left, height_right)
+
+def get_heights(tree, heights, height=1, path=[]):
+    if tree is None:
+        return path
+    path.append(tree)
+    path_left = get_heights(tree.left, heights, height+1, path)
+    for i, node in enumerate(path_left):
+        current_height = heights.get(node, 0)
+        measured_height = height - i
+        if measured_height > current_height:
+            heights[node] = measured_height
+    path_right = get_heights(tree.right, heights, height+1, path)
+    for i, node in enumerate(path_right):
+        current_height = heights.get(node, 0)
+        measured_height = height - i
+        if measured_height > current_height:
+            heights[node] = measured_height
+    return path
+
+# O(n)
+def get_paths(tree):
+    # We've reached a null node, nothing to add to the list
+    if tree is None:
+        return []
+    # We've reached a leaf, return the current item as a list
+    if tree.left is None and tree.right is None:
+        return [tree]
+    # Add up the left and right paths
+    return [[tree] + [l] for l in 
+        get_paths(tree.left) + get_paths(tree.right)]
+
+def set_heights(paths):
+    heights = defaultdict(lambda: 0)
+    for path in paths:
+        height = len(path)
+        for current, node in enumerate(path):
+            measured_height = height - current
+            if heights[node] < measured_height:
+                heights[node] = measured_height
+    return dict(heights)
 
 # O(n^2)
 def is_balanced(tree):
@@ -40,6 +81,17 @@ if __name__ == '__main__':
     balanced_tree.right.left = Node(7)
     balanced_tree.right.left.left = Node(6)
     balanced_tree.right.right = Node(20)
+
+    test = Node(5)
+    test.left = Node(2)
+    test.right = Node(10)
+
+    # heights = {}
+    # get_heights(test, heights)
+    # print(heights)
+    # heights = get_paths(balanced_tree)
+    # print(heights)
+    # print(set_heights(heights))
 
     # print(get_height(balanced_tree))
 

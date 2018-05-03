@@ -19,7 +19,7 @@ class LinkedList(object):
         return ' -> '.join(total)
     
     def __repr__(self):
-        return str(self)
+        return str(self.item)
     
     def add(self, item):
         if self.item is None:
