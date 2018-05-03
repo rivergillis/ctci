@@ -1,10 +1,11 @@
 from collections import defaultdict
 
 class Graph(object):
-    def __init__(self, connections, directed=False):
+    def __init__(self, connections=None, directed=False):
         self.graph = defaultdict(set)
         self.directed = directed
-        self.add_connections(connections)
+        if connections:
+            self.add_connections(connections)
     
     def add_connections(self, connections):
         for node1, node2 in connections:
