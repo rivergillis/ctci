@@ -45,9 +45,12 @@ def build_order(projects, dependencies):
 
     order = []
     built = set()
+
+    # When every node in to_search has this set to true, end search
+    last_postpone = {}
     
     # BFS
-    found = set()
+    found = set(independent)
     to_search = deque(independent)
     while to_search:
         current_node = to_search.popleft()
@@ -59,8 +62,21 @@ def build_order(projects, dependencies):
             order.append(current_node)
             built.add(current_node)
         else:
+            # We've found every node and still cant build this
+            if len(found) >= len(projects):
+                if last_postpone.get(current_node, False):
+                    # And have already postponed. So error
+                    print("Error: Cycle in the dependency graph")
+                    return None
+                # Otherwise postpone just once more
+                last_postpone[current_node] = True
+            # Can't build it yet, wait till later
             to_search.append(current_node)
-            # check if we need to kill it here?
+
+    
+    if len(order) < len(projects):
+        print("Error: Cycle in the dependency graph")
+        return None
     
     return order
 
