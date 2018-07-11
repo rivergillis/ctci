@@ -34,6 +34,11 @@ def sort_bad(unsorted: Stack) -> Stack:
             unsorted.push(item)
     return result
 
+# Write a program to sort a stack such that the smallest items are on the top.
+# You can use an additional temporary stack, but you may not copy the elements
+# into any other data structure (even a list). The stack supports the following
+# operations: push, pop, peek, and is_empty
+
 def sort(unsorted: Stack) -> Stack:
     sorted_stack = Stack()
 
